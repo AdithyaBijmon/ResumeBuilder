@@ -8,10 +8,10 @@ function UserForm() {
 
     <div className="container">
       <div className="row p-5">
-        <div className="col-6">
+        <div className="col-lg-6">
           <Steps/>
         </div>
-        <div className="col-6">
+        <div className="col-lg-6">
           <Preview/>
         </div>
       </div>

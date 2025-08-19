@@ -5,10 +5,10 @@ function LandingPage() {
   return (
     <>
       {/* Frist section */}
-      <section className='container-fluid' style={{ width: '100%', height: '500px', backgroundImage: "url('https://cdn.pixabay.com/photo/2020/07/11/22/57/meeting-5395567_1280.jpg')", backgroundPosition: 'top', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
+      <section className='container-fluid d align-items-center' style={{ width: '100%', height: '80vh', backgroundImage: "url('https://cdn.pixabay.com/photo/2020/07/11/22/57/meeting-5395567_1280.jpg')", backgroundPosition: 'top', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
         <div className='row pt-5'>
           <div className="col-12 col-md-4"></div>
-          <div className="col-12 col-md-4  shadow border  mt-5 py-5 rounded text-center" style={{ backgroundColor: 'rgb(255,255,255,0.5)' }}>
+          <div className="col-12 col-md-4 row align-items-center d-flex shadow border  mt-5 py-5 rounded text-center " style={{ backgroundColor: 'rgb(255,255,255,0.5)' }}>
             <h3>Designed to get hired</h3>
             <h4>Your skills,your story,your next job - all in one</h4>
             <Link to={'/resume'}><button className='btn btn-primary'>Make your Resume</button></Link>
