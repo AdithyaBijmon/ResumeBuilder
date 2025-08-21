@@ -1,0 +1,1 @@
+const commonAPI = (httpMethod,url,reqBody)=>{}
