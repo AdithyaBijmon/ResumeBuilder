@@ -6,12 +6,14 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import swal from 'sweetalert';
+import { addResumeAPI } from '../services/allAPI';
 
 
 const steps = ['Basic Informations', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
 
-function Steps({ userInput, setUserInput }) {
+function Steps({ userInput, setUserInput,setFinish}) {
   const skillSuggestion = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND', 'CSS', 'GIT']
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -174,7 +176,16 @@ function Steps({ userInput, setUserInput }) {
     const { name, jobTitle, location } = userInput.personalDetails
 
     if (name && jobTitle && location) {
-      alert("API called")
+      try{
+        const result = await addResumeAPI(userInput)
+        swal("Success!", "Resume added successfully!", "success");
+        setFinish(true)
+      }
+      catch(error){
+      console.log(error)
+      swal("OOPs!", "Resume added failed!", "error");
+      setFinish(false)
+      }
     }
     else {
       alert("Please fill the form")
