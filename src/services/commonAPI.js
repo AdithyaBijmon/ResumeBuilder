@@ -1,1 +1,18 @@
-const commonAPI = (httpMethod,url,reqBody)=>{}
+const { default: axios } = require("axios")
+
+
+const commonAPI = async (httpMethod, url, reqBody) => {
+    const reqConfig = {
+        method: httpMethod,
+        url,
+        data: reqBody
+    }
+    return await axios(reqConfig).then(res => {
+        return res
+    }).catch(err => {
+        return err
+    })
+
+}
+
+export default commonAPI
