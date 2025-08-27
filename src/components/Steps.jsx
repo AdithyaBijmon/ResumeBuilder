@@ -13,7 +13,7 @@ import { addResumeAPI } from '../services/allAPI';
 const steps = ['Basic Informations', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
 
-function Steps({ userInput, setUserInput,setFinish}) {
+function Steps({ userInput, setUserInput,setFinish,setResumeId}) {
   const skillSuggestion = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND', 'CSS', 'GIT']
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -178,6 +178,9 @@ function Steps({ userInput, setUserInput,setFinish}) {
     if (name && jobTitle && location) {
       try{
         const result = await addResumeAPI(userInput)
+        setResumeId(result?.data?.id)
+        // console.log(result?.data?.id)
+        
         swal("Success!", "Resume added successfully!", "success");
         setFinish(true)
       }

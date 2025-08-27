@@ -21,10 +21,11 @@ const style = {
     p: 4,
 };
 
-function Edit() {
+function Edit({resumeId}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    console.log(resumeId)
     return (
         <>
             <button onClick={handleOpen} className='btn fs-3 text-primary' ><FaEdit /></button>
