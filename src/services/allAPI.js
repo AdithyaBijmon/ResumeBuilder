@@ -20,3 +20,8 @@ export const getHistoryAPI = async() => {
 export const deleteHistoryAPI = async(id) => {
     return await commonAPI("DELETE", `${BASEURL}/history/${id}`, {})
 }
+
+//getResumeAPI - GET called by edit component when it opens in the browser(useEffect)
+export const getResumeAPI = async(id) => {
+    return await commonAPI("GET", `${BASEURL}/allResumes/${id}`, {})
+}

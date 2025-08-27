@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { FaEdit } from "react-icons/fa";
 import TextField from '@mui/material/TextField';
+import { getResumeAPI } from '../services/allAPI';
 
 
 const style = {
@@ -21,11 +22,27 @@ const style = {
     p: 4,
 };
 
-function Edit({resumeId}) {
+function Edit({ resumeId }) {
+    const [userInput, setUserInput] = React.useState({})
     const [open, setOpen] = React.useState(false);
+    React.useEffect(() => {
+        resumeId && getEditResumeDetails()
+    }, [resumeId])
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    console.log(resumeId)
+    // console.log(resumeId)
+
+    const getEditResumeDetails = async () => {
+        try {
+            const result = await getResumeAPI(resumeId)
+            setUserInput(result?.data)
+        }
+        catch (err) {
+            console.log(err);
+
+        }
+    }
     return (
         <>
             <button onClick={handleOpen} className='btn fs-3 text-primary' ><FaEdit /></button>
@@ -43,36 +60,36 @@ function Edit({resumeId}) {
                         {/* Personal details */}
                         <h3>Personal Details</h3>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-name" label="Full Name" variant="standard" />
-                            <TextField id="standard-basic-title" label="Job Title" variant="standard" />
-                            <TextField id="standard-basic-location" label="Location" variant="standard" />
+                            <TextField id="standard-basic-name" label="Full Name" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, name: e.target.value } })} value={userInput?.personalDetails?.name} />
+                            <TextField id="standard-basic-title" label="Job Title" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, jobTitle: e.target.value } })} value={userInput?.personalDetails?.jobTitle} />
+                            <TextField id="standard-basic-location" label="Location" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, location: e.target.value } })} value={userInput?.personalDetails?.location} />
                         </div>
 
                         {/* Contact details */}
                         <h3>Contact Details</h3>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-email" label="Email" variant="standard" />
-                            <TextField id="standard-basic-phone" label="Phone number" variant="standard" />
-                            <TextField id="standard-basic-github" label="Github Profile Link" variant="standard" />
-                            <TextField id="standard-basic-linkedIn" label="LinkedIn Profile Link" variant="standard" />
-                            <TextField id="standard-basic-portfolio" label="Portfolio  Link" variant="standard" />
+                            <TextField id="standard-basic-email" label="Email" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, email: e.target.value } })} value={userInput?.personalDetails?.email} />
+                            <TextField id="standard-basic-phone" label="Phone number" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, phone: e.target.value } })} value={userInput?.personalDetails?.phone} />
+                            <TextField id="standard-basic-github" label="Github Profile Link" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, github: e.target.value } })} value={userInput?.personalDetails?.github} />
+                            <TextField id="standard-basic-linkedIn" label="LinkedIn Profile Link" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, linkedin: e.target.value } })} value={userInput?.personalDetails?.linkedin} />
+                            <TextField id="standard-basic-portfolio" label="Portfolio  Link" variant="standard" onChange={e => setUserInput({ ...userInput, personalDetails: { ...userInput.personalDetails, portfolio: e.target.value } })} value={userInput?.personalDetails?.portfolio} />
                         </div>
 
                         {/* Education details */}
                         <h3>Education Details</h3>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-course" label="Course Name" variant="standard" />
-                            <TextField id="standard-basic-college" label="College Name" variant="standard" />
-                            <TextField id="standard-basic-university" label="University " variant="standard" />
-                            <TextField id="standard-basic-year" label="Year of Passout" variant="standard" />
+                            <TextField id="standard-basic-course" label="Course Name" variant="standard" onChange={e => setUserInput({ ...userInput, education: { ...userInput.education, course: e.target.value } })} value={userInput?.education?.course} />
+                            <TextField id="standard-basic-college" label="College Name" variant="standard" onChange={e => setUserInput({ ...userInput, education: { ...userInput.education, college: e.target.value } })} value={userInput?.education?.college} />
+                            <TextField id="standard-basic-university" label="University " variant="standard" onChange={e => setUserInput({ ...userInput, education: { ...userInput.education, university: e.target.value } })} value={userInput?.education?.university} />
+                            <TextField id="standard-basic-year" label="Year of Passout" variant="standard" onChange={e => setUserInput({ ...userInput, education: { ...userInput.education, year: e.target.value } })} value={userInput?.education?.year} />
                         </div>
                         {/* Professional details */}
                         <h3>Professional Details</h3>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-role" label="Job or Internship " variant="standard" />
-                            <TextField id="standard-basic-company" label="Company Name" variant="standard" />
-                            <TextField id="standard-basic-clocation" label="Location " variant="standard" />
-                            <TextField id="standard-basic-duration" label="Duration" variant="standard" />
+                            <TextField id="standard-basic-role" label="Job or Internship " variant="standard" onChange={e => setUserInput({ ...userInput, experience: { ...userInput.experience, jobRole: e.target.value } })} value={userInput?.experience?.jobRole} />
+                            <TextField id="standard-basic-company" label="Company Name" variant="standard" onChange={e => setUserInput({ ...userInput, experience: { ...userInput.experience, company: e.target.value } })} value={userInput?.experience?.company} />
+                            <TextField id="standard-basic-clocation" label="Location " variant="standard" onChange={e => setUserInput({ ...userInput, experience: { ...userInput.experience, jobLocation: e.target.value } })} value={userInput?.experience?.jobLocation} />
+                            <TextField id="standard-basic-duration" label="Duration" variant="standard" onChange={e => setUserInput({ ...userInput, experience: { ...userInput.experience, duration: e.target.value } })} value={userInput?.experience?.duration} />
                         </div>
                         {/* skills */}
                         <h3>Skills</h3>
