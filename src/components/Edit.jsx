@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { FaEdit } from "react-icons/fa";
 import TextField from '@mui/material/TextField';
-import { getResumeAPI } from '../services/allAPI';
+import { editResumeAPI, getResumeAPI } from '../services/allAPI';
+import swal from 'sweetalert';
 
 
 const style = {
@@ -22,9 +23,13 @@ const style = {
     p: 4,
 };
 
-function Edit({ resumeId }) {
+function Edit({ resumeId,setUpdateResume }) {
+
+    const [userSkills, setUserSkills] = React.useState("")
     const [userInput, setUserInput] = React.useState({})
     const [open, setOpen] = React.useState(false);
+
+    console.log(userInput)
     React.useEffect(() => {
         resumeId && getEditResumeDetails()
     }, [resumeId])
@@ -32,6 +37,20 @@ function Edit({ resumeId }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     // console.log(resumeId)
+
+
+    const handleResumeUpdate = async () => {
+        try {
+            const result = await editResumeAPI(userInput?.id, userInput)
+             swal("Success!", "Resume updated successfully!", "success");
+             setUpdateResume(result?.data)
+            handleClose()
+        }
+        catch (err) {
+            console.log(err);
+
+        }
+    }
 
     const getEditResumeDetails = async () => {
         try {
@@ -43,6 +62,25 @@ function Edit({ resumeId }) {
 
         }
     }
+
+    const addSkill = () => {
+        if (userSkills) {
+            if (userInput.skills.includes(userSkills)) {
+                alert("Skill already exist.")
+            }
+            else {
+                setUserInput({ ...userInput, skills: [...userInput.skills, userSkills] })
+
+            }
+            setUserSkills('')
+        }
+    }
+
+    const removeSkill = (skill) => {
+        setUserInput({ ...userInput, skills: userInput.skills.filter(item => (item != skill)) })
+    }
+
+
     return (
         <>
             <button onClick={handleOpen} className='btn fs-3 text-primary' ><FaEdit /></button>
@@ -94,23 +132,28 @@ function Edit({ resumeId }) {
                         {/* skills */}
                         <h3>Skills</h3>
                         <div className="d-flex align-items-center justify-content-between p-3">
-                            <TextField sx={{ width: '300px' }} id="standard-basic-skill" label="Add skills " variant="standard" />
-                            <Button variant="text">ADD</Button>
+
+                            <TextField onChange={e => setUserSkills(e.target.value)} sx={{ width: '300px' }} id="standard-basic-skill" label="Add skills " value={userSkills} variant="standard" />
+                            <Button onClick={addSkill} variant="text">ADD</Button>
                         </div>
-                        <h5>Added Skills:</h5>
-                        <div className='d-flex flex-wrap justify-content-between my-3'>
-                            <span className='btn btn-outline-primary d-flex justify-content-center align-items-center '>REACT <button className='text-light btn'>X</button></span>
+                        <h5>Selected Skills:</h5>
+                        <div className='d-flex  my-3 flex-wrap'>
+                            {
+                                userInput?.skills?.length > 0 && userInput?.skills?.map(item => (
+                                    <span key={item} className='btn btn-outline-primary d-flex justify-content-center align-items-center m-1'>{item} <button onClick={() => removeSkill(item)} className='text-light btn'>X</button></span>
+                                ))
+                            }
                         </div>
 
                         {/* Summary */}
                         <h3>Professional Summary</h3>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-summary" label="Write a short summary of yourself" multiline rows={5} variant="standard" />
+                            <TextField onChange={e => setUserInput({ ...userInput, summary: e.target.value })} id="standard-basic-summary" label="Write a short summary of yourself" multiline rows={5} variant="standard" value={userInput?.summary} />
 
                         </div>
 
                     </Typography>
-                    <Button>UPDATE</Button>
+                    <Button onClick={handleResumeUpdate}>UPDATE</Button>
                 </Box>
             </Modal>
         </>

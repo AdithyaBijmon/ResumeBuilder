@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
@@ -14,10 +14,14 @@ import { addDownloadHistoryAPI } from '../services/allAPI';
 
 
 
-function Preview({ userInput, finish,resumeId }) {
+function Preview({ userInput, setUserInput, finish, resumeId }) {
     // console.log(userInput)
-
+    const [updateResume, setUpdateResume] = useState({})
     const [downloadStatus, setDownloadStatus] = useState(false)
+
+    useEffect(() => {
+        updateResume != {} && setUserInput(updateResume)
+    }, [updateResume])
 
     const downloadCV = async () => {
 
@@ -50,23 +54,23 @@ function Preview({ userInput, finish,resumeId }) {
         }
     }
 
-    
+
     return (
         <>
 
             {userInput.personalDetails.name != "" &&
                 <div className='d-flex flex-column'>
                     {finish &&
-                        <Stack direction={'row'} sx={{ justifyContent: 'center',paddingTop:'200px' }}>
+                        <Stack direction={'row'} sx={{ justifyContent: 'center', paddingTop: '150px' }}>
                             <Stack direction={'row'}>
                                 {/* download */}
                                 <button onClick={downloadCV} className='btn fs-3 text-primary' ><GrDocumentDownload /></button>
-                                   {/* edit */}
-                                        <Edit resumeId={resumeId} />
+                                {/* edit */}
+                                <Edit resumeId={resumeId} setUpdateResume={setUpdateResume} />
                                 {
                                     setDownloadStatus &&
                                     <>
-                                     
+
                                         {/* history */}
                                         <Link to={'/history'} className='btn fs-3 text-primary' ><FaHistory /></Link>
                                     </>
