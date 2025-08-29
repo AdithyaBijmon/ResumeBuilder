@@ -16,12 +16,9 @@ import { addDownloadHistoryAPI } from '../services/allAPI';
 
 function Preview({ userInput, setUserInput, finish, resumeId }) {
     // console.log(userInput)
-    const [updateResume, setUpdateResume] = useState({})
     const [downloadStatus, setDownloadStatus] = useState(false)
 
-    useEffect(() => {
-        updateResume != {} && setUserInput(updateResume)
-    }, [updateResume])
+  
 
     const downloadCV = async () => {
 
@@ -66,7 +63,7 @@ function Preview({ userInput, setUserInput, finish, resumeId }) {
                                 {/* download */}
                                 <button onClick={downloadCV} className='btn fs-3 text-primary' ><GrDocumentDownload /></button>
                                 {/* edit */}
-                                <Edit resumeId={resumeId} setUpdateResume={setUpdateResume} />
+                                <Edit resumeId={resumeId} setUpdateUserInput={setUserInput} />
                                 {
                                     setDownloadStatus &&
                                     <>
@@ -84,7 +81,7 @@ function Preview({ userInput, setUserInput, finish, resumeId }) {
                         <Paper id="result" elevation={3} sx={{ my: 5, p: 4, textAlign: 'center', marginTop: '80px', width: '600px', height: '700px' }}>
                             <h2>{userInput.personalDetails.name}</h2>
                             <h5>{userInput.personalDetails.jobTitle}</h5>
-                            <p><span>{userInput.personalDetails.phone}</span><span>|</span><span>{userInput.personalDetails.email}</span><span>|</span> <span>{userInput.personalDetails.location}</span></p>
+                            <p><span>{userInput.personalDetails.phone}</span><span>|</span><span>{userInput.personalDetails.email}</span><s mnjuiopan>|</s> <span>{userInput.personalDetails.location}</span></p>
                             <p>
                                 <Link className='me-2' href={userInput.personalDetails.github}>GitHub</Link><span>|</span>
                                 <Link className='mx-2' href={userInput.personalDetails.linkedin}>LinkedIn</Link><span>|</span>
